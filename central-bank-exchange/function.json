@@ -5,7 +5,14 @@
       "name": "mytimer",
       "type": "timerTrigger",
       "direction": "in",
-      "schedule": "0 30 9 * * 1"
+      "schedule": "0 30 4 * * *"
     }
-  ]
+  ],
+  "retry": {
+    "strategy": "exponentialBackoff",
+    "maxRetryCount": 5,
+    "minimumInterval": "00:00:20",
+    "maximumInterval": "00:10:00"   
+  }
+
 }

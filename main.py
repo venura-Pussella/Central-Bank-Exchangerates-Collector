@@ -68,7 +68,7 @@ async def main():
             azure_hosting_name="AI Services",
             developmental_language="Python",
             description="Bank Exchange Rates - Function Application",
-            created_by="BrownsAIseviceTest",
+            created_by="BrownsAIsevice",
             log_print="Successfully completed data ingestion to Cosmos DB.",
             running_within_minutes=43200,
             error_id=0
@@ -89,7 +89,7 @@ async def main():
             azure_hosting_name="AI Services",
             developmental_language="Python",
             description="Bank Exchange Rates - Function Application",
-            created_by="BrownsAIseviceTest",
+            created_by="BrownsAIsevice",
             log_print="An error occurred: " + str(e),
             running_within_minutes=43200,
             error_id=1
