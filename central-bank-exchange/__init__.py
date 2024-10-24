@@ -12,9 +12,9 @@ def main(mytimer: func.TimerRequest) -> None:
 
     try:
         run_main()
-        logger.info('Python timer trigger function ran successfully at %s', utc_timestamp)
+        logger.info('Python timer trigger (central bank exchange rate collector) function ran successfully at %s', utc_timestamp)
 
     except AzureError as ae:
-        logger.warning(f"Transient Azure error occurred: {ae}")
+        logger.warning(f"Transient Azure error occurred (central bank exchange rate collector): {ae}")
         logger.info("Function will be retried due to transient Azure error")
         raise  # Allow retry for transient errors
