@@ -38,13 +38,14 @@ async def main():
         df=clean_dataframe(df)
         logger.info("Data transformation finished") 
 
-        # compare records with the csv already backed up to the cloud, so that only the new rows of data are processed
+        # compare records with the csv already backed up to the cloud, so that only the new rows of data at the bottom are processed
         cloudDF = csv_data_converter.downloadExistingCSVFromBlobAndGetDataframe()
         logger.info("Cloud csv downloaded") 
         new_exchange_rates_df = csv_data_converter.getNewRowsOnlyAndSaveToCSV(cloudDF, df)
         logger.info("CSV data created.")
         cloudAndNewMergeString = csv_data_converter.mergeOldAndNew_saveToCSV(cloudDF, new_exchange_rates_df)
 
+        # backup the updated record to Azure storage
         upload_to_blob(cloudAndNewMergeString)
         logger.info("Successfully uploaded to blob.")
         

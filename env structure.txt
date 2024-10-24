@@ -1,0 +1,8 @@
+connect_str = # Azure storage connection string
+container_name_blob = 
+container_name_cosmos = 
+database_name = 
+endpoint = # Cosmos endpoint
+key = # Cosmos key
+storage_account_key = 
+storage_account_name = 
