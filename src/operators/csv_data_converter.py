@@ -11,11 +11,9 @@ def downloadExistingCSVFromBlobAndGetDataframe() -> pandas.DataFrame:
     df:pandas.DataFrame = None
     try:
         blob_name = configuration.Basefile_name + '.csv'
-        blob.download_from_blob(blob_name)
-        temporary_filepath = 'temp_files/currentBackup.csv'
+        current_csv_string = blob.download_from_blob(blob_name)
         df = None
-        if os.path.exists(temporary_filepath):
-            df = pandas.read_csv(temporary_filepath)
+        df = pandas.read_csv(io.StringIO(current_csv_string))
     except Exception as e:
         print(e)
     return df
@@ -31,10 +29,8 @@ def getNewRowsOnlyAndSaveToCSV(cloudDF, exchange_rates_df: pandas.DataFrame) -> 
     """
     print('getNewRowsOnlyAndSaveToCSV Called')
     if not isinstance(cloudDF, pandas.DataFrame):
-        print('getNewRowsOnlyAndSaveToCSV IF')
         new_exchange_rates_df = exchange_rates_df
     else:
-        print('getNewRowsOnlyAndSaveToCSV ELSE')
         cloudDF_numOfRows = cloudDF.shape[0]
         cloudDFLastDate = str(cloudDF.iloc[cloudDF_numOfRows - 1].iloc[0])
 
@@ -47,18 +43,17 @@ def getNewRowsOnlyAndSaveToCSV(cloudDF, exchange_rates_df: pandas.DataFrame) -> 
                 break
 
         new_exchange_rates_df = exchange_rates_df.iloc[lastCommonRowIndex+1:]
-
-    new_exchange_rates_df.to_csv('temp_files/newData.csv', index= False)
     
     return new_exchange_rates_df
 
-def mergeOldAndNew_saveToCSV(cloudDf, new_exchange_rates_df: pandas.DataFrame):
-    """Takes the two dataframes (one containing the data backed up to the cloud and the other with the new data), combines it, and saves to a .csv
+def mergeOldAndNew_saveToCSV(cloudDf, new_exchange_rates_df: pandas.DataFrame) -> str:
+    """Takes the two dataframes (one containing the data backed up to the cloud and the other with the new data), combines it, and returns csv string (StringIO)
     """
     if not isinstance(cloudDf, pandas.DataFrame):
         cloudAndNewMerge = new_exchange_rates_df
     else:
         cloudAndNewMerge = pandas.concat([cloudDf, new_exchange_rates_df])
 
-    filepath = 'temp_files/' + configuration.Basefile_name + '.csv'
-    cloudAndNewMerge.to_csv(filepath, index=False)
+    # cloudAndNewMergeString = io.StringIO()
+    cloudAndNewMergeString = cloudAndNewMerge.to_csv(index=False)
+    return cloudAndNewMergeString

@@ -6,3 +6,4 @@ logging_str = "[%(asctime)s: %(levelname)s: %(module)s: %(message)s]"
 logging.basicConfig(level=logging.INFO, format=logging_str)
 
 logger = logging.getLogger("Central_Bank_exchangerates_logger")
+logging.getLogger('azure').setLevel('WARNING')

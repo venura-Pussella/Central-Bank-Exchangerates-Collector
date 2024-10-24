@@ -43,9 +43,9 @@ async def main():
         logger.info("Cloud csv downloaded") 
         new_exchange_rates_df = csv_data_converter.getNewRowsOnlyAndSaveToCSV(cloudDF, df)
         logger.info("CSV data created.")
-        csv_data_converter.mergeOldAndNew_saveToCSV(cloudDF, new_exchange_rates_df)
-        uploadPath = 'temp_files/' + configuration.Basefile_name + '.csv'
-        upload_to_blob(uploadPath)
+        cloudAndNewMergeString = csv_data_converter.mergeOldAndNew_saveToCSV(cloudDF, new_exchange_rates_df)
+
+        upload_to_blob(cloudAndNewMergeString)
         logger.info("Successfully uploaded to blob.")
         
         # Convert to JSON format
